@@ -7,9 +7,7 @@ const Home = () => {
     return (
         <div>
             <Header></Header>
-            <SignIn></SignIn>
             <Outlet></Outlet>
-            
         </div>
     );
 };
