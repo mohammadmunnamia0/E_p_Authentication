@@ -1,29 +1,72 @@
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import auth from "../../Firebase/firebase.config";
+import { useState } from "react";
 
 const RegComp = () => {
 
-  const HandleRegister = e => {
+
+
+
+
+  //2.1 Show register error {when user is already added cant add the same user again}
+  const [registerError, setRegisterError] = useState("");
+
+  //3.1 Show Successfully added user
+  const [SuccessfullyAddedUser, setSuccessfullyAddedUser] = useState();
+
+
+
+
+
+
+  //get the values from the each field of the form
+  const HandleRegister = (e) => {
     e.preventDefault();
     const name = e.target.name.value;
     const email = e.target.email.value;
     const password = e.target.password.value;
     console.log(name, email, password);
-    console.log('submitted');
+    console.log("submitted");
 
-    //firebase authentication
+
+      //2.4 Reset/Clear the Error Message Before the new Registration
+      setRegisterError("");
+
+      //3.4 Reset/Clear the Successfully Added User Message Before the new Registration
+      setSuccessfullyAddedUser("");
+
+
+
+
+    //4. checking the password error if password is less then 6 then show an error message
+    if (password.length < 6) {
+      setRegisterError("Password must be at least 6 characters");
+      return; // ai khane return korar kaorn jodi pass vul hoy less then 6 tahole r code samne excute hobe na
+    }
+      
+
+  
+
+    //1. firebase authentication create user
 
     createUserWithEmailAndPassword(auth, email, password)
-
-    .then(result =>{
-      const RegUser = result.user;
-      console.log(RegUser);
-    })
-    .catch(error => {
-      // console.log(error.message);
-      console.error(error.message);
-    })
+      .then((result) => {
+        const RegUser = result.user;
+        console.log(RegUser);
+        setSuccessfullyAddedUser(RegUser); //3.2
+      })
+      .catch((error) => {
+        console.error(error);
+        setRegisterError(error.message); //2.2
+      });
   };
+
+
+
+
+
+
+
 
   return (
     <div>
@@ -41,6 +84,7 @@ const RegComp = () => {
                   name="name"
                   placeholder="Your Name"
                   aria-label="Email Address"
+                  required
                 />
               </div>
               <div className="w-full mt-4">
@@ -49,6 +93,7 @@ const RegComp = () => {
                   name="email"
                   placeholder="Email Address"
                   aria-label="Email Address"
+                  required
                 />
               </div>
 
@@ -58,11 +103,12 @@ const RegComp = () => {
                   name="password"
                   placeholder="Password"
                   aria-label="Password"
+                  required
                 />
               </div>
 
               <div className="!mt-12">
-                <button onSubmit={HandleRegister}
+                <button
                   type="submit"
                   className="w-full py-3 px-4 tracking-wider text-sm rounded-md text-white bg-gray-700 hover:bg-gray-800 focus:outline-none"
                 >
@@ -70,10 +116,27 @@ const RegComp = () => {
                 </button>
               </div>
             </form>
+
+
+
+
+
+
+
+            {/*2.3. Showing the error */}
+            {registerError && <p className="text-red-600">{registerError}</p>}
+
+            {/*3.3 Showing the Successfully Added User */}
+
+            {SuccessfullyAddedUser && (<p className="text-green-400">User Added Successfully</p>
+
+
+
+            )}
           </div>
 
           <button
-           type="button"
+            type="button"
             className="flex items-center justify-center w-full px-6 py-2 mx-2 text-sm font-medium text-white transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-400 focus:bg-blue-400 focus:outline-none"
           >
             <svg className="w-4 h-4 mx-2 fill-current" viewBox="0 0 24 24">
@@ -84,7 +147,6 @@ const RegComp = () => {
           </button>
         </div>
       </div>
-      ;
     </div>
   );
 };
