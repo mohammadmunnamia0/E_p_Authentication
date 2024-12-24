@@ -1,10 +1,28 @@
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import auth from "../../Firebase/firebase.config";
+
 const RegComp = () => {
-  const HandleRegister = (e) => {
+
+  const HandleRegister = e => {
     e.preventDefault();
     const name = e.target.name.value;
     const email = e.target.email.value;
-    const pass = e.target.password.value;
-    console.log(name, email, pass);
+    const password = e.target.password.value;
+    console.log(name, email, password);
+    console.log('submitted');
+
+    //firebase authentication
+
+    createUserWithEmailAndPassword(auth, email, password)
+
+    .then(result =>{
+      const RegUser = result.user;
+      console.log(RegUser);
+    })
+    .catch(error => {
+      // console.log(error.message);
+      console.error(error.message);
+    })
   };
 
   return (
@@ -44,8 +62,8 @@ const RegComp = () => {
               </div>
 
               <div className="!mt-12">
-                <button
-                  type="button"
+                <button onSubmit={HandleRegister}
+                  type="submit"
                   className="w-full py-3 px-4 tracking-wider text-sm rounded-md text-white bg-gray-700 hover:bg-gray-800 focus:outline-none"
                 >
                   Create an account
@@ -54,19 +72,8 @@ const RegComp = () => {
             </form>
           </div>
 
-          <div className="flex items-center justify-center py-4 text-center bg-gray-50 dark:bg-gray-700">
-            <p className="text-gray-800 text-sm mt-6 text-center">
-              Already have an account?{" "}
-              <a
-                href="javascript:void(0);"
-                className="text-blue-600 font-semibold hover:underline ml-1"
-              >
-                Login here
-              </a>
-            </p>
-          </div>
           <button
-            type="button"
+           type="button"
             className="flex items-center justify-center w-full px-6 py-2 mx-2 text-sm font-medium text-white transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-400 focus:bg-blue-400 focus:outline-none"
           >
             <svg className="w-4 h-4 mx-2 fill-current" viewBox="0 0 24 24">

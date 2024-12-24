@@ -1,3 +1,5 @@
+import { NavLink } from "react-router-dom";
+
 const SignIn = () => {
 
 
@@ -45,7 +47,7 @@ const SignIn = () => {
                 Forget Password?
               </a>
 
-              <button className="px-6 py-2 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50">
+              <button  className="px-6 py-2 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50">
                 Sign In
               </button>
             </div>
@@ -54,15 +56,15 @@ const SignIn = () => {
 
         <div className="flex items-center justify-center py-4 text-center bg-gray-50 dark:bg-gray-700">
           <span className="text-sm text-gray-600 dark:text-gray-200">
-            Don't have an account?{" "}
+            Dont have an account?{" "}
           </span>
 
-          <a
+          <NavLink to="/register"
             href="#"
             className="mx-2 text-sm font-bold text-blue-500 dark:text-blue-400 hover:underline"
           >
             Register
-          </a>
+          </NavLink>
         </div>
         <button
           type="button"
