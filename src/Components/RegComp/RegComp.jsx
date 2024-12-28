@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
+import { createUserWithEmailAndPassword, sendEmailVerification, updateProfile } from "firebase/auth";
 import auth from "../../Firebase/firebase.config";
 import { useState } from "react";
 import { FaEye,FaEyeSlash } from "react-icons/fa";
@@ -48,8 +48,7 @@ const RegComp = () => {
       return;
     }
 
-
-    //1. firebase authentication create user
+    //1. create user firebase authentication 
 
     createUserWithEmailAndPassword(auth, email, password)
       .then((result) => {
@@ -57,16 +56,32 @@ const RegComp = () => {
         console.log(RegUser);
         setSuccessfullyAddedUser(RegUser); //3.2
 
+        //Update profile
+        updateProfile(result.user,{
+          displayName:name,
+          photoURL:"https://example.com/jane-q-user/profile.jpg"
+        })
+        .then(()=>{
+          console.log("Profile Updated")
+        })
+        .catch(error=>{
+          console.log(error);
+        })
+
         //firebase send verification mail to verify the user email
         sendEmailVerification(result.user)
         .then(()=>{
           alert("Check Your Mail to Verify the Email")
         })
       })
+
+
       .catch((error) => {
         console.error(error);
         setRegisterError(error.message); //2.2
       });
+
+      
   };
 
   return (
@@ -79,7 +94,7 @@ const RegComp = () => {
             </p>
 
             <form onSubmit={HandleRegister}>
-              {/* <div className="w-full mt-4">
+             <div className="w-full mt-4">
                 <input
                   className="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-500 bg-white border rounded-lg dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-opacity-40 focus:outline-none focus:ring focus:ring-blue-300"
                   name="name"
@@ -87,7 +102,7 @@ const RegComp = () => {
                   aria-label="Email Address"
                   required
                 />
-              </div> */}
+              </div>
               <div className="w-full mt-4">
                 <input
                   className="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-500 bg-white border rounded-lg dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-opacity-40 focus:outline-none focus:ring focus:ring-blue-300"

@@ -8,7 +8,8 @@ const SignIn = () => {
 
   const [SuccessfullyAddedUser, setSuccessfullyAddedUser] = useState();
 
-  const emailRef = useRef(); //jehetu forgot password is not a part of form tai forgot pasword a press korle amar to form a dewa email ke pabo na , tai useref korlam so that amra user ar mail ta form theke reference hisab a niye oi mail ar moddhe akta forgot mail ar message dite pari
+  const emailRef = useRef(); //check the email input field
+  //jehetu forgot password is not a part of form tai forgot pasword a press korle amar to form a dewa email ke pabo na , tai useref korlam so that amra user ar mail ta form theke reference hisab a niye oi mail ar moddhe akta forgot mail ar message dite pari
 
   const HandleSignin = (e) => {
     e.preventDefault();
@@ -23,7 +24,7 @@ const SignIn = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then((result) => {
         console.log(result.user);
-        if(result.user.emailVerified)
+        if(result.user.emailVerified) //emailVerified {check the inspect while show the user info there u will find the emailVerified}
           {
           console.log("Email is verified");
         }
@@ -36,7 +37,8 @@ const SignIn = () => {
       
       .catch((error) => {
         console.log(error.message);
-        setRegisterError(error.message);
+        // setRegisterError(error.message);
+        setRegisterError('Invalid Email Address');
       });
   };
 
@@ -80,7 +82,9 @@ const SignIn = () => {
               <input
                 className="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-500 bg-white border rounded-lg dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-opacity-40 focus:outline-none focus:ring focus:ring-blue-300"
                 name="email"
-                ref={emailRef}
+
+                ref={emailRef} //using for handleForgotPassword
+
                 placeholder="Email Address"
                 aria-label="Email Address"
               />
