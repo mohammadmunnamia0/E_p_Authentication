@@ -12,7 +12,7 @@ const RegComp = () => {
   const [SuccessfullyAddedUser, setSuccessfullyAddedUser] = useState();
 
   //showPassword 
-  const [ShowPassword,serShowPassword]=useState(false);
+  const [ShowPassword,setShowPassword]=useState(false); //false = eye closed
 
 
   //get the values from the each field of the form
@@ -122,7 +122,7 @@ const RegComp = () => {
                   aria-label="Password"
                   required
                 />
-                <span onClick={()=> serShowPassword(!ShowPassword)} className="text-2xl absolute right-4 top-4">
+                <span onClick={()=> setShowPassword(!ShowPassword)} className="text-2xl absolute right-4 top-4">
                 {
                   ShowPassword ?  <FaEye />  :    <FaEyeSlash />
                 }
